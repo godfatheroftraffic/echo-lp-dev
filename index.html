@@ -1,11 +1,35 @@
+<!--
+========================================================================
+ECHO LANDING PAGE MASTER TEMPLATE v2.0
+ANGLE DESK SYSTEM - MULTI-BRAND SPLIT-TEST SYSTEM
+========================================================================
+
+BRAND CUSTOMIZATION REQUIRED (Lines 3-8, 168-180):
+- Change CSS variables (colors, fonts)
+- Update default headline, subheadline, CTA
+- Update footer branding and links
+- Upload brand images to /public/ folder
+
+ALL OTHER CODE: Do not modify (universal logic)
+
+URL PARAMETERS SUPPORTED:
+Content: ?hl= ?sh= ?cta= ?img= ?link=
+Styles: ?font= ?btn_color= ?btn_text= ?btn_size= ?btn_style= ?hl_size= ?sh_size= ?overlay=
+Triggers: ?social_proof=on ?scarcity=N ?progress=N ?micro_yes=on
+Debug: ?debug=1
+
+For documentation: See PKD system guide
+========================================================================
+-->
+
 <style>
- :root {
-  --kw-bg-overlay: rgba(0, 0, 0, 0.55);
-  --kw-text: #ffffff;
-  --kw-accent: #00e676;        /* BRAND: Change this color */
-  --kw-accent-text: #0b0f14;   /* BRAND: Change this color */
-  --kw-font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
-}
+  :root {
+    --kw-bg-overlay: rgba(0, 0, 0, 0.55);
+    --kw-text: #ffffff;
+    --kw-accent: #00e676;        /* BRAND: Change this color */
+    --kw-accent-text: #0b0f14;   /* BRAND: Change this color */
+    --kw-font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
+  }
 
   #echo-root {
     position: fixed;
@@ -76,6 +100,22 @@
     border-radius: 12px;
     font-weight: 900;
     box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
+  }
+
+  #cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  #cta:active {
+    transform: translateY(0px);
+  }
+
+  #cta.dimmed {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
   #echo-footer {
@@ -121,6 +161,142 @@
     color: #ffffff;
   }
 
+  /* ==============================================
+     PSYCHOLOGICAL TRIGGERS (Optional via URL)
+     ============================================== */
+
+  #micro-yes-container {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+
+  #micro-yes-container:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  #micro-yes-checkbox {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    accent-color: var(--kw-accent);
+  }
+
+  #micro-yes-label {
+    cursor: pointer;
+  }
+
+  #social-proof {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 380px;
+    width: 90%;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(12px);
+    color: #1a1a1a;
+    padding: 12px 18px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+    z-index: 1500;
+    display: none;
+    animation: slideUp 0.4s ease-out;
+    pointer-events: none;
+  }
+
+  #social-proof-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+  }
+
+  #social-proof-content::before {
+    content: "✓";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: #00e676;
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  #scarcity {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #ff3b3b 0%, #ff6b6b 100%);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    z-index: 1500;
+    box-shadow: 0 6px 16px rgba(255, 59, 59, 0.4);
+    display: none;
+    animation: urgentPulse 2.5s infinite;
+    pointer-events: none;
+  }
+
+  @keyframes urgentPulse {
+    0%, 100% {
+      transform: translateX(-50%) scale(1);
+      box-shadow: 0 6px 16px rgba(255, 59, 59, 0.4);
+    }
+    50% {
+      transform: translateX(-50%) scale(1.03);
+      box-shadow: 0 8px 20px rgba(255, 59, 59, 0.5);
+    }
+  }
+
+  #progress-indicator {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    padding: 10px 18px;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 1500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    display: none;
+    pointer-events: none;
+  }
+
+  #progress-indicator strong {
+    color: var(--kw-accent);
+  }
+
   @media (max-width: 420px) {
     #hl {
       font-size: 30px;
@@ -141,173 +317,385 @@
       font-size: 11px;
       padding: 12px 16px;
     }
+    #social-proof {
+      bottom: 75px;
+      font-size: 13px;
+      padding: 10px 14px;
+      max-width: calc(100% - 20px);
+    }
+    #scarcity {
+      font-size: 13px;
+      padding: 10px 18px;
+      top: 10px;
+    }
+    #progress-indicator {
+      top: 10px;
+      right: 10px;
+      font-size: 12px;
+      padding: 8px 14px;
+    }
+    #micro-yes-container {
+      font-size: 14px;
+      padding: 10px 12px;
+    }
   }
 </style>
 
 <div id="echo-root">
   <div id="echo-overlay"></div>
 
+  <!-- Psychological Triggers (show/hide via URL) -->
+  <div id="scarcity"></div>
+  <div id="progress-indicator"></div>
+  <div id="social-proof"><div id="social-proof-content"></div></div>
+
   <div id="echo-content">
-   <h1 id="hl" data-default="[BRAND HEADLINE]">[BRAND HEADLINE]</h1>
-<p id="sh" data-default="[BRAND SUBHEADLINE]">[BRAND SUBHEADLINE]</p>
-<a id="cta" data-default="[BRAND CTA]"
-  href="[BRAND DEFAULT LINK]">
-  [BRAND CTA]
-</a>
-<div id="bg" data-default="[BRAND_IMAGE.jpg]" style="display:none"></div>
+    <h1 id="hl" data-default="[BRAND HEADLINE]">[BRAND HEADLINE]</h1>
+    <p id="sh" data-default="[BRAND SUBHEADLINE]">[BRAND SUBHEADLINE]</p>
+    
+    <!-- Micro-Yes Checkbox (optional) -->
+    <div id="micro-yes-container">
+      <input type="checkbox" id="micro-yes-checkbox">
+      <label id="micro-yes-label" for="micro-yes-checkbox">Yes, I want to see how this works</label>
+    </div>
+
+    <a id="cta" data-default="[BRAND CTA]" href="[BRAND DEFAULT LINK]">[BRAND CTA]</a>
+    <div id="bg" data-default="[BRAND_IMAGE.jpg]" style="display:none"></div>
   </div>
 
   <footer id="echo-footer">
     <div id="footer-content">
-     <p id="footer-copyright">© 2025 [BRAND NAME]. All rights reserved.</p>
-<div id="footer-links">
-  <a href="[BRAND PRIVACY URL]" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-  <a href="[BRAND TERMS URL]" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-  <a href="[BRAND COOKIES URL]" target="_blank" rel="noopener noreferrer">Cookie Policy</a>
-</div>
+      <p id="footer-copyright">© 2025 [BRAND NAME]. All rights reserved.</p>
+      <div id="footer-links">
+        <a href="[BRAND PRIVACY URL]" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        <a href="[BRAND TERMS URL]" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+        <a href="[BRAND COOKIES URL]" target="_blank" rel="noopener noreferrer">Cookie Policy</a>
+      </div>
     </div>
   </footer>
 </div>
 
 <script>
-  (function () {
+(function () {
+  "use strict";
+
+  // ============================================
+  // UTILITY: Parse URL Parameters
+  // ============================================
   function parseParams(str) {
     str = (str || "").replace(/^[?#]/, "");
     var params = {};
     if (!str) return params;
-
     str.split("&").forEach(function (pair) {
       var parts = pair.split("=");
       var key = decodeURIComponent(parts[0] || "").trim();
       var val = decodeURIComponent((parts[1] || "").split("+").join(" ")).trim();
       if (key) params[key] = val;
     });
-
     return params;
   }
 
   var params = Object.assign({}, parseParams(window.location.search), parseParams(window.location.hash));
-  console.log("DYNAMIC PARAMS:", params);
+  var DEBUG = params.debug === "1";
 
+  if (DEBUG) console.log("🔍 DEBUG MODE ENABLED");
+  if (DEBUG) console.log("📋 ALL PARAMS:", params);
+
+  // ============================================
+  // ELEMENTS
+  // ============================================
   var hlEl = document.getElementById("hl");
   var shEl = document.getElementById("sh");
   var ctaEl = document.getElementById("cta");
+  var overlayEl = document.getElementById("echo-overlay");
+  var root = document.getElementById("echo-root");
 
-  if (params.hl && hlEl) hlEl.textContent = params.hl;
-  if (params.sh && shEl) shEl.textContent = params.sh;
-  if (params.cta && ctaEl) ctaEl.textContent = params.cta;
-
-  // BUTTON COLOR (simple)
-  if (params.btn_color) {
-    ctaEl.style.background = '#' + params.btn_color;
+  // ============================================
+  // CONTENT REPLACEMENT
+  // ============================================
+  if (params.hl && hlEl) {
+    hlEl.textContent = params.hl;
+    if (DEBUG) console.log("✅ Headline:", params.hl);
   }
-  if (params.btn_text) {
-    ctaEl.style.color = '#' + params.btn_text;
+  if (params.sh && shEl) {
+    shEl.textContent = params.sh;
+    if (DEBUG) console.log("✅ Subheadline:", params.sh);
   }
-  
-  // BUTTON SIZE (simple)
-  if (params.btn_size === 'large') {
-    ctaEl.style.padding = '20px 36px';
-    ctaEl.style.fontSize = '20px';
+  if (params.cta && ctaEl) {
+    ctaEl.textContent = params.cta;
+    if (DEBUG) console.log("✅ CTA:", params.cta);
   }
 
+  // ============================================
+  // FONT FAMILY
+  // ============================================
+  var fontMap = {
+    system: "ui-sans-serif, system-ui, -apple-system, sans-serif",
+    roboto: "'Roboto', sans-serif",
+    inter: "'Inter', sans-serif",
+    poppins: "'Poppins', sans-serif",
+    arial: "Arial, Helvetica, sans-serif",
+    georgia: "Georgia, 'Times New Roman', serif"
+  };
+  if (params.font && fontMap[params.font]) {
+    document.documentElement.style.setProperty("--kw-font", fontMap[params.font]);
+    if (DEBUG) console.log("✅ Font:", params.font);
+  }
+
+  // ============================================
+  // BUTTON STYLING
+  // ============================================
+  if (params.btn_color && ctaEl) {
+    ctaEl.style.background = "#" + params.btn_color;
+    if (DEBUG) console.log("✅ Button Color:", params.btn_color);
+  }
+  if (params.btn_text && ctaEl) {
+    ctaEl.style.color = "#" + params.btn_text;
+    if (DEBUG) console.log("✅ Button Text Color:", params.btn_text);
+  }
+
+  // Button Size
+  var btnSizeMap = {
+    small: { padding: "12px 20px", fontSize: "16px" },
+    medium: { padding: "16px 26px", fontSize: "18px" },
+    large: { padding: "20px 36px", fontSize: "20px" },
+    xlarge: { padding: "24px 44px", fontSize: "22px" }
+  };
+  if (params.btn_size && btnSizeMap[params.btn_size] && ctaEl) {
+    ctaEl.style.padding = btnSizeMap[params.btn_size].padding;
+    ctaEl.style.fontSize = btnSizeMap[params.btn_size].fontSize;
+    if (DEBUG) console.log("✅ Button Size:", params.btn_size);
+  }
+
+  // Button Style (border-radius)
+  var btnStyleMap = {
+    square: "4px",
+    rounded: "12px",
+    pill: "50px",
+    subtle: "8px"
+  };
+  if (params.btn_style && btnStyleMap[params.btn_style] && ctaEl) {
+    ctaEl.style.borderRadius = btnStyleMap[params.btn_style];
+    if (DEBUG) console.log("✅ Button Style:", params.btn_style);
+  }
+
+  // ============================================
+  // TEXT SIZING
+  // ============================================
+  if (params.hl_size && hlEl) {
+    hlEl.style.fontSize = params.hl_size + "px";
+    if (DEBUG) console.log("✅ Headline Size:", params.hl_size + "px");
+  }
+  if (params.sh_size && shEl) {
+    shEl.style.fontSize = params.sh_size + "px";
+    if (DEBUG) console.log("✅ Subheadline Size:", params.sh_size + "px");
+  }
+
+  // ============================================
+  // OVERLAY DARKNESS
+  // ============================================
+  var overlayMap = {
+    light: "rgba(0, 0, 0, 0.35)",
+    medium: "rgba(0, 0, 0, 0.55)",
+    dark: "rgba(0, 0, 0, 0.75)",
+    xdark: "rgba(0, 0, 0, 0.85)"
+  };
+  if (params.overlay && overlayMap[params.overlay] && overlayEl) {
+    overlayEl.style.background = overlayMap[params.overlay];
+    if (DEBUG) console.log("✅ Overlay:", params.overlay);
+  } else if (params.overlay_custom && overlayEl) {
+    var opacity = parseFloat(params.overlay_custom);
+    if (!isNaN(opacity) && opacity >= 0 && opacity <= 1) {
+      overlayEl.style.background = "rgba(0, 0, 0, " + opacity + ")";
+      if (DEBUG) console.log("✅ Overlay Custom:", opacity);
+    }
+  }
+
+  // ============================================
   // SMART BUTTON LINK BUILDER
-  // Automatically merges CTA and tracking params to destination URL
+  // ============================================
   if (ctaEl) {
     var destinationURL = params.link || ctaEl.getAttribute("data-default-href") || ctaEl.href;
     
-    // Auto-add https:// if missing
     if (params.link && !/^https?:\/\//i.test(params.link)) {
       destinationURL = "https://" + params.link;
     }
     
-    // Parse destination URL to check if it already has params
-    var urlParts = destinationURL.split('?');
+    var urlParts = destinationURL.split("?");
     var baseURL = urlParts[0];
-    var existingParams = urlParts[1] ? urlParts[1] : '';
+    var existingParams = urlParts[1] || "";
     
-    // Build new params object (excluding content params)
-    var contentParams = ["hl", "sh", "img", "link", "btn_color", "btn_text", "btn_size"];
+    var contentParams = ["hl", "sh", "img", "link", "btn_color", "btn_text", "btn_size", "btn_style", "font", "hl_size", "sh_size", "overlay", "overlay_custom", "social_proof", "scarcity", "progress", "micro_yes", "debug"];
     var trackingParams = [];
     
-    // AUTO-ADD CTA to destination (this is the key feature!)
+    // AUTO-ADD CTA
     if (params.cta) {
       trackingParams.push("cta=" + encodeURIComponent(params.cta));
-      console.log("AUTO-MATCH: CTA '" + params.cta + "' will be passed to destination");
+      if (DEBUG) console.log("🔗 Auto-match CTA:", params.cta);
     }
     
-    // Add all other tracking params
+    // Add all tracking params
     for (var key in params) {
-      if (params.hasOwnProperty(key) && contentParams.indexOf(key) === -1 && key !== 'cta') {
+      if (params.hasOwnProperty(key) && contentParams.indexOf(key) === -1 && key !== "cta") {
         trackingParams.push(encodeURIComponent(key) + "=" + encodeURIComponent(params[key]));
       }
     }
     
-    // Merge existing params with new params
     var allParams = existingParams ? [existingParams] : [];
     if (trackingParams.length > 0) {
       allParams = allParams.concat(trackingParams);
     }
     
-    // Build final URL
-    var finalURL = baseURL + (allParams.length > 0 ? '?' + allParams.join('&') : '');
+    var finalURL = baseURL + (allParams.length > 0 ? "?" + allParams.join("&") : "");
     ctaEl.href = finalURL;
     
-    console.log("BUTTON LINK:", finalURL);
+    if (DEBUG) console.log("🔗 Final Button Link:", finalURL);
   }
 
-  var root = document.getElementById("echo-root");
-  if (!root) { console.log("BG: #echo-root not found."); return; }
-
+  // ============================================
+  // BACKGROUND IMAGE LOADING
+  // ============================================
   var bgEl = document.getElementById("bg");
   var defaultBg = bgEl ? (bgEl.getAttribute("data-default") || "").trim() : "";
   var chosen = (params.img || defaultBg || "").trim();
 
-  if (!chosen) {
-    console.log("BG: No img param and no data-default set. Background unchanged.");
-    return;
-  }
+  if (chosen) {
+    if (/^https?:\/\//i.test(chosen)) {
+      root.style.backgroundImage = 'url("' + chosen + '")';
+      if (DEBUG) console.log("🖼️ BG Set (full URL):", chosen);
+    } else {
+      chosen = decodeURIComponent(chosen).replace(/^\/+/, "");
+      var origin = window.location.origin.replace(/\/+$/, "");
+      var candidates = [
+        origin + "/public/" + chosen,
+        origin + "/" + chosen
+      ];
 
-  if (/^https?:\/\//i.test(chosen)) {
-    root.style.backgroundImage = 'url("' + chosen + '")';
-    console.log("BG SET (full url):", chosen);
-    return;
-  }
+      function tryLoad(i) {
+        if (i >= candidates.length) {
+          if (DEBUG) console.log("❌ BG Load Failed:", candidates);
+          return;
+        }
+        var url = candidates[i];
+        var img = new Image();
+        img.onload = function () {
+          root.style.backgroundImage = 'url("' + url + '")';
+          if (DEBUG) console.log("✅ BG Loaded:", url);
+        };
+        img.onerror = function () {
+          if (DEBUG) console.log("⚠️ BG 404:", url);
+          tryLoad(i + 1);
+        };
+        img.src = url + (url.indexOf("?") === -1 ? "?" : "&") + "v=" + Date.now();
+      }
 
-  chosen = decodeURIComponent(chosen).replace(/^\/+/, "");
-  var origin = window.location.origin.replace(/\/+$/, "");
-  var candidates = [
-    origin + "/public/" + chosen,
-    origin + "/" + chosen
-  ];
-
-  function tryLoad(i) {
-    if (i >= candidates.length) {
-      console.log("BG FAILED: none loaded:", candidates);
-      console.log("BG NOTE: This usually means the file is NOT deployed on this subdomain.");
-      return;
+      tryLoad(0);
     }
-
-    var url = candidates[i];
-    var img = new Image();
-
-    img.onload = function () {
-      root.style.backgroundImage = 'url("' + url + '")';
-      root.style.backgroundSize = "cover";
-      root.style.backgroundPosition = "center";
-      root.style.backgroundRepeat = "no-repeat";
-      console.log("BG LOADED OK:", url);
-    };
-
-    img.onerror = function () {
-      console.log("BG 404/FAIL:", url);
-      tryLoad(i + 1);
-    };
-
-    img.src = url + (url.indexOf("?") === -1 ? "?" : "&") + "v=" + Date.now();
   }
 
-  console.log("BG PROBING:", candidates);
-  tryLoad(0);
+  // ============================================
+  // PSYCHOLOGICAL TRIGGERS
+  // ============================================
+
+  // MICRO-YES CHECKBOX
+  if (params.micro_yes === "on") {
+    var microYesContainer = document.getElementById("micro-yes-container");
+    var microYesCheckbox = document.getElementById("micro-yes-checkbox");
+    
+    if (microYesContainer && microYesCheckbox && ctaEl) {
+      microYesContainer.style.display = "flex";
+      ctaEl.classList.add("dimmed");
+      
+      microYesCheckbox.addEventListener("change", function() {
+        if (microYesCheckbox.checked) {
+          ctaEl.classList.remove("dimmed");
+        } else {
+          ctaEl.classList.add("dimmed");
+        }
+      });
+      
+      if (DEBUG) console.log("✅ Micro-Yes Enabled");
+    }
+  }
+
+  // SOCIAL PROOF TICKER
+  if (params.social_proof === "on") {
+    var socialProof = document.getElementById("social-proof");
+    var socialProofContent = document.getElementById("social-proof-content");
+    
+    if (socialProof && socialProofContent) {
+      var names = ["Michael", "Sarah", "John", "Jessica", "David", "Emily", "Chris", "Amanda", "Ryan", "Lisa"];
+      var cities = ["NYC", "LA", "Chicago", "Miami", "Dallas", "Seattle", "Boston", "Austin", "Denver", "Atlanta"];
+      var actions = ["just started", "viewing now", "just signed up", "completed step 1"];
+      
+      function showProof() {
+        var name = names[Math.floor(Math.random() * names.length)];
+        var city = cities[Math.floor(Math.random() * cities.length)];
+        var action = actions[Math.floor(Math.random() * actions.length)];
+        socialProofContent.textContent = name + " from " + city + " " + action;
+        socialProof.style.display = "block";
+        
+        setTimeout(function() {
+          socialProof.style.display = "none";
+        }, 6000);
+      }
+      
+      setTimeout(showProof, 2000);
+      setInterval(showProof, 12000);
+      
+      if (DEBUG) console.log("✅ Social Proof Enabled");
+    }
+  }
+
+  // SCARCITY COUNTER
+  if (params.scarcity) {
+    var scarcityEl = document.getElementById("scarcity");
+    var slots = parseInt(params.scarcity, 10);
+    
+    if (scarcityEl && !isNaN(slots) && slots > 0) {
+      scarcityEl.innerHTML = '<span id="scarcity-icon">⚡</span> Only ' + slots + ' spots remaining today';
+      scarcityEl.style.display = "block";
+      if (DEBUG) console.log("✅ Scarcity Enabled:", slots + " spots");
+    }
+  }
+
+  // PROGRESS INDICATOR
+  if (params.progress) {
+    var progressEl = document.getElementById("progress-indicator");
+    var step = parseInt(params.progress, 10);
+    
+    if (progressEl && !isNaN(step) && step > 0) {
+      progressEl.innerHTML = 'Step <strong>' + step + '</strong> of 3';
+      progressEl.style.display = "block";
+      if (DEBUG) console.log("✅ Progress Enabled: Step", step);
+    }
+  }
+
+  // ============================================
+  // ANALYTICS (GTM/GA4 Auto-Fire)
+  // ============================================
+  if (typeof window.dataLayer !== "undefined") {
+    window.dataLayer.push({
+      event: "echo_page_view",
+      page_type: "echo_landing",
+      test_params: params
+    });
+    if (DEBUG) console.log("📊 Analytics Event Fired: echo_page_view");
+  }
+
+  if (ctaEl) {
+    ctaEl.addEventListener("click", function() {
+      if (typeof window.dataLayer !== "undefined") {
+        window.dataLayer.push({
+          event: "echo_cta_click",
+          cta_text: ctaEl.textContent,
+          destination: ctaEl.href
+        });
+        if (DEBUG) console.log("📊 Analytics Event Fired: echo_cta_click");
+      }
+    });
+  }
+
+  if (DEBUG) console.log("✅ Master Template Loaded Successfully");
 })();
 </script>
